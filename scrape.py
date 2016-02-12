@@ -26,6 +26,7 @@ basecommand = "aria2c -j 10 -x 16 -m 0 -k 1M -s 25 -c "
 filename=""
 comp_command=""
 downurl=None
+dwndir = "~/Desktop"
 
 ###################Getting info about video#################
 
@@ -98,8 +99,7 @@ def Down_aria(button,choice):
 		downThirdloop=1
 	downurl = urllib.unquote(str(choice.url))
 	raise urwid.ExitMainLoop()
-#def download1(comp_command):
-#	call("ls")
+
 def exit_program(button):  
 	sys.exit()
 
@@ -153,11 +153,16 @@ top = urwid.Overlay(main1, urwid.SolidFill(u'\N{MEDIUM SHADE}'),align='center', 
 urwid.MainLoop(top, palette=[('reversed', 'standout', '')]).run()
 ####################exiting audioVideo loop############check if download was requested###########################
 if downSeconloop==1:
-	print filename.replace(" ","")
-	regex = re.compile('[^a-zA-Z0-9]')
+	
+	regex = re.compile('[^a-zA-Z0-9.]')
 	filename = regex.sub('_', str(filename))
-	a=os.system("aria2c --out "+str(filename)+" -j 10 -x 16 -m 0 -k 1M -s 25  " + "  \"%s\"  " %downurl)
+	filename=filename.replace("__","_")
+	filename=filename.replace("__","_")
+	print filename
+	a=os.system("aria2c --out "+str(filename)+" -j 10 -x 16 -m 0 -k 1M -s 25  " +"-d %s" %dwndir + "  \"%s\"  " %downurl)
 	#print a
+if downSeconloop==1:
+	sys.exit()
 ################################################################33
 #print "print VA heer"
 
@@ -193,8 +198,12 @@ if downSeconloop != 1 :
 	urwid.MainLoop(top, palette=[('reversed', 'standout', '')]).run()
 
 ###########################################################333
+
 if downThirdloop == 1 :
-	print filename.replace(" ","")
-	regex = re.compile('[^a-zA-Z0-9]')
+	regex = re.compile('[^a-zA-Z0-9.]')
 	filename = regex.sub('_', str(filename))
-	a=os.system("aria2c --out "+str(filename)+" -j 10 -x 16 -m 0 -k 1M -s 25  " + "  \"%s\"  " %downurl)
+	filename=filename.replace("__","_")
+	filename=filename.replace("__","_")
+	print filename
+	a=os.system("aria2c --out "+str(filename)+" -j 10 -x 16 -m 0 -k 1M -s 25  " +"-d %s" %dwndir + "  \"%s\"  " %downurl)
+sys.exit()
