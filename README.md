@@ -6,3 +6,5 @@
   Pafy (sudo pip install Pafy)
 
   pyperclip (sudo pip install pyperclip)
+  
+  aria2 (sudo apt-get install aria2)
