@@ -184,7 +184,7 @@ if downSeconloop==1:    ######
 	filename=filename.replace("__","_")
 	filename=filename.replace("__","_")
 	print filename
-	print "downloadinf to %s\n" + dwndir
+	print "downloadinf to %s\n" %dwndir
 	a=os.system("aria2c --out "+str(filename)+" -j 10 -x 16 -m 0 -k 1M -s 25  " +"-d %s" %dwndir + "  \"%s\"  " %downurl)
 	#print a
 if downSeconloop==1:      ###if download was for a/v files ####exit as furher videos not needed
@@ -210,7 +210,7 @@ if downThirdloop == 1 :               ####downThirdloop=1 means a video from thi
 	filename=filename.replace("__","_")
 	filename=filename.replace("__","_")
 	print filename 
-	print "downloadinf to %s\n" + dwndir
+	print "downloadinf to %s\n" %dwndir
 	a=os.system("aria2c --out "+str(filename)+" -j 10 -x 16 -m 0 -k 1M -s 25  " +"-d %s" %dwndir + "  \"%s\"  " %downurl)
 sys.exit()
 
