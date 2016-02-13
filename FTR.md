@@ -1,6 +1,6 @@
 #To Be Done
 
-add check if file exists ##for multiple file of same format and diff sixe ######suggest a new name
+add check if file exists ##for multiple file of same format and diff size ######suggest a new name
 
 
 add size to output menus in addition to resolution
