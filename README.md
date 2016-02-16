@@ -9,6 +9,19 @@ Youtube Downloader based on Pafy and aria2. Allows downloading all available str
   pyperclip (sudo pip install pyperclip)
   
   aria2 (sudo apt-get install aria2)
+  
+  PhantomJS (sudo apt-get install phantomjs)
+
+ Selenium  (sudo pip install selenium)
+ 
+ base64 
+
+ bs4  (sudo  pip install beautifulsoup4)
 
 #USE
-python scrape.py
+python scrape.py           --------- for Youtube download
+python scrape.py -a      --------- for anime download "gogoanime.io" "kissanime.to"
+python scrape.py -d      --------- for direct download link
+
+Enter URL when prompted
+It may take a while to load Kissanime website depending on cennection speed. Please  be patient
