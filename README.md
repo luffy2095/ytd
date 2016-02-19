@@ -19,6 +19,11 @@ Youtube Downloader based on Pafy and aria2. Allows downloading all available str
  bs4  (sudo  pip install beautifulsoup4)
 
 #USE
+#Installing Dependencies
+	sudo pip install -r requirements.txt
+	sudo apt-get install aria2
+	sudo apt-get install phantomjs
+
 python scrape.py           --------- for Youtube download
 python scrape.py -a      --------- for anime download "gogoanime.io" "kissanime.to"
 python scrape.py -d      --------- for direct download link

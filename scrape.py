@@ -291,7 +291,7 @@ elif str(sys.argv[1])=="-a" :
 		driver = webdriver.PhantomJS(service_args=['--ssl-protocol=any'])
 		driver.maximize_window()
 		try :
-			driver.get("https://kissanime.to/Anime/Diamond-no-Ace-Second-Season/Episode-044?id=122513")
+			driver.get(str(URL_a))
 			wait = WebDriverWait(driver, 30)
 			search = wait.until(EC.presence_of_element_located((By.ID, "selectQuality")))
 			
