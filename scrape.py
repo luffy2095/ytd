@@ -1,4 +1,6 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
+import codecs
 import pafy
 import sys
 import urwid
@@ -17,7 +19,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 
-
+#######################################################
+File_dir_global="~/Desktop"
+#######################################################
 print ""
 os.system("export PATH=$PATH:PWD")
 def exit_program(button):  		####called when EXIT called
@@ -41,7 +45,7 @@ if len(sys.argv)==1:
 	filename=""
 	comp_command=""
 	downurl=None
-	dwndir = "~/Desktop"
+	dwndir = File_dir_global
 
 	###################Getting info about video#################
 
@@ -226,6 +230,15 @@ if len(sys.argv)==1:
 		print filename 
 		print "downloadinf to %s\n" %dwndir
 		a=os.system("aria2c --out "+str(filename)+" -j 10 -x 16 -m 0 -k 1M -s 25  " +"-d %s" %dwndir + "  \"%s\"  " %downurl)
+		if "webm"  in filename: 
+			filename1=filename.replace("webm","mp3")
+		if "m4a" in filename:	
+			filename1=filename.replace("m4a","mp3")
+		print ""
+		os.system("clear")
+		print "Converting to mp3"
+		print filename1
+		a=os.system("ffmpeg -i %s"%dwndir+"/"+"%s"%filename  + "  -ab 128k -ar 44100 %s"%dwndir+"/"+"%s"%filename1  )
 	sys.exit()
 
 	#####################################exit after all########################
@@ -265,6 +278,7 @@ elif str(sys.argv[1])=="-a" :
 			f = urllib.urlopen(URL_a).read()
 		except:
 			print "connectivity error\n"
+			sys.exit()
 		soup = BeautifulSoup(f)
 		select = soup.find_all("select", id="selectQuality")
 		option_list = select[0].find_all("option")
@@ -277,13 +291,13 @@ elif str(sys.argv[1])=="-a" :
 		urwid.MainLoop(top, palette=[('reversed', 'standout', '')]).run()
 		
 		###################download the shit####################
-		print "downloadind to Desktop"
+		print ("downloadind to %s"%FIle_dir_global)
 		filename = str(((soup.find_all("meta",attrs={'name':'description'}))[0])["content"])
 		filename = filename + ".mp4"
-		
+		dwndir=File_dir_global
 		filename = filename.replace(" ", "_")
 		print filename
-		a=os.system("aria2c  --out " + str(filename) + "  -j 10 -x 16 -m 0 -k 1M -s 35 " + " -d ~/Desktop " +"   %s " %str(chosen_anime_url))
+		a=os.system("aria2c  --out " + str(filename) + "  -j 10 -x 16 -m 0 -k 1M -s 35 " + " -d  %s" %str(dwndir) +"   %s " %str(chosen_anime_url))
 		sys.exit()
 		#os.system("aria2c %s"%str(chosen_anime_url))
 	
@@ -311,7 +325,7 @@ elif str(sys.argv[1])=="-a" :
 		urwid.MainLoop(top, palette=[('reversed', 'standout', '')]).run()	
 		
 		###################download the shit####################
-		print "downloadind to Desktop"
+		print ("downloadind to %s"%File_dir_global)
 		filename = str((driver.find_element_by_name("description")).get_attribute("content"))
 		for rep in ["Various","formats","from","240p","720p" ,"HD","to","or","even","1080p",  "("   ,   ")"   ,   "HTML5",   "available",   "for",   "mobile",    "devices","f",".","_____"  ]:
 				filename = filename.replace(rep,"")
@@ -319,11 +333,12 @@ elif str(sys.argv[1])=="-a" :
 		filename = filename.rstrip(" ")
 		filename=filename.replace(" ","_")
 		filename = filename + ".mp4"
+		dwndir=File_dir_global
 
 		print filename
 		#print chosen_anime_url
 		chosen_anime_url = chosen_anime_url.rstrip(" ")
-		a=os.system("aria2c  --out " + str(filename) + "  -j 10 -x 16 -m 0 -k 1M -s 35 " + " -d ~/Desktop " +"   \"%s\" " %str(chosen_anime_url))
+		a=os.system("aria2c  --out " + str(filename) + "  -j 10 -x 16 -m 0 -k 1M -s 35 " + " -d %s "%dwndir +"   \"%s\" " %str(chosen_anime_url))
 		driver.quit()
 		sys.exit()
 		######################################################################
@@ -341,7 +356,7 @@ elif str(sys.argv[1])=="-d" :
 	d_filename=raw_input("Input filename\n")
 	print "" #Dummy print for clear to work ?? find reason for this
 	subprocess.call("clear")
-	dwndir = "~/Desktop"
-	print "Downloading to Desktop"
+	dwndir = File_dir_global
+	print ("downloadind to %s"%dwndir)
 	os.system("aria2c --out "+str(d_filename)+" -j 10 -x 16 -m 0 -k 1M -s 25  " +"-d %s" %dwndir + "  \"%s\"  " %d_url)
 	#sys.exit()
