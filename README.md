@@ -15,7 +15,7 @@ Youtube Downloader based on Pafy and aria2. Allows downloading all available str
 	
 	$ cd YtbDwn/
 	
-	$ python setup.py install
+	$ sudo python setup.py install
 	
 #USAGE
 	$ ytbdwn
