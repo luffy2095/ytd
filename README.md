@@ -5,13 +5,20 @@ Youtube Downloader based on Pafy and aria2. Allows downloading all available str
   urwid,Pafy,pyperclip,bs4,,aria2  
 
 
-#Installation
-	sudo pip install YtbDwn
+#Installation 
+# 1.PIP
+	$ sudo pip install YtbDwn
 	
-	sudo apt-get install aria2
+	$ sudo apt-get install aria2
+# 2.Source
+	$ git clone https://github.com/praneet95/YtbDwn
+	
+	$ cd YtbDwn/
+	
+	$ python setup.py install
 	
 #USAGE
-ytbdwn
+	$ ytbdwn
 
 (Enter URL when prompted)
 
