@@ -13,17 +13,19 @@ import re
 import urllib2
 from bs4 import BeautifulSoup
 import base64
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.keys import Keys
+import apt
+cache = apt.Cache()
+if cache['aria2'].is_installed:
+    print "Package installation check :- OK"
+    os.system("clear")
+else:
+    print "Please Install aria2 (sudo apt-get install aria2)"
+    sys.exit(0)
 
 #######################################################
 File_dir_global="~/Desktop"
 #######################################################
 print ""
-os.system("export PATH=$PATH:PWD")
 def exit_program(button):  		####called when EXIT called
 		sys.exit()
 
