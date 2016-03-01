@@ -40,7 +40,7 @@ if len(sys.argv)==1:
 	avail_stream_audioO=None
 	avail_stream_both=None
 	downSeconloop=None
-	downThirdloop=None	
+	downThirdloop=None
 	basecommand = "aria2c -j 10 -x 16 -m 0 -k 1M -s 25 -c "
 	filename=""
 	comp_command=""
@@ -54,17 +54,17 @@ if len(sys.argv)==1:
 		try:
 			vid = pafy.new(str(URL))
 			global author
-			global title 
-			global vid_len 
+			global title
+			global vid_len
 			global avail_stream_both
-			global avail_stream_audioO 
-			global avail_stream_VideoO 
+			global avail_stream_audioO
+			global avail_stream_VideoO
 			author = vid.author
 			title = vid.title
 			vid_len = vid.length
 			avail_stream_both = vid.streams
 			avail_stream_audioO = vid.audiostreams
-			avail_stream_VideoO = vid.videostreams	
+			avail_stream_VideoO = vid.videostreams
 		except RuntimeError,e:
 			print str(e)
 			sys.exit()
@@ -73,10 +73,10 @@ if len(sys.argv)==1:
 			print("please check the network Connection")
 			retry = raw_input("Retry? y/n  ")
 			if retry in ('Y','y'):
-				getpafy(URL)	
+				getpafy(URL)
 			elif retry in ('N','n'):
 				sys.exit()
-		except ValueError,e: 
+		except ValueError,e:
 			print str(e)
 			print "Please check URL provided"
 			sys.exit()
@@ -100,11 +100,11 @@ if len(sys.argv)==1:
 		urwid.connect_signal(ext, 'click', exit_program)
 		urwid.connect_signal(down,'click',Down_aria,choice)
 	       	main1.original_widget = urwid.Filler(urwid.Pile([v_chosen,v_URL,urwid.AttrMap(done, None, focus_map='reversed'),urwid.AttrMap(down, None, focus_map='reversed'),urwid.AttrMap(ext, None, focus_map='reversed')]))
-	       	
+
 	##############################Displaying Video formats definitions########################
 	def menuAV(title, avail_stream_both):	###menu displaying formats with both audio and video ######### 2nd loop
 		body = [urwid.Text(title), urwid.Divider()]
-			
+
 		for c in avail_stream_both:
 			button = urwid.Button(str(c) + " ----->" + str(c.resolution) + "----->" + str((float(c.get_filesize())/1024)/1024))
 			urwid.connect_signal(button, 'click', chosen_URL, c)
@@ -116,14 +116,14 @@ if len(sys.argv)==1:
 		button = urwid.Button("EXIT")
 		urwid.connect_signal(button, 'click', exit_program)
 		body.append(urwid.AttrMap(button, None, focus_map='reversed'))
-	
+
 		return urwid.ListBox(urwid.SimpleFocusListWalker(body))
 
 	##########################################################################333
 
 	def menuVAOnlyMenu(title, avail_stream_VideoO,avail_stream_audioO):	###menu displaying formats with only audio or video ## must handle cases with audio and video alone ## for 3rd loop
 		body = [urwid.Text(title), urwid.Divider()]
-			
+
 		for x in avail_stream_VideoO:
 			button = urwid.Button(str(x).split('@',1)[0]  + "---->" +x.resolution  + "----->" + str((float(x.get_filesize())/1024)/1024))
 			urwid.connect_signal(button, 'click', chosen_URL, x)
@@ -136,16 +136,16 @@ if len(sys.argv)==1:
 		button = urwid.Button("EXIT")
 		urwid.connect_signal(button, 'click', exit_program)
 		body.append(urwid.AttrMap(button, None, focus_map='reversed'))
-	
+
 		return urwid.ListBox(urwid.SimpleFocusListWalker(body))
-	
+
 	#################3333##################################################
-	       	
+
 	def Copy_exit(button,choice):		####called when user selects copy to clipboard
 		pyperclip.copy(str(choice.url))
-		spam = pyperclip.paste()   
+		spam = pyperclip.paste()
 		sys.exit()
-	
+
 	def Down_aria(button,choice):   ### called when user select download using aria ## it modifys flags which are further used to decide which loop to enter ### modifies "folename" "url" and "comp_command"(command to be executed with aria)
 		global filename
 		global comp_command
@@ -153,7 +153,7 @@ if len(sys.argv)==1:
 		global downThirdloop
 		global downurl
 		filename = title + "." + choice.extension
-		comp_command = basecommand + "-o " + filename 
+		comp_command = basecommand + "-o " + filename
 		if str(choice.mediatype) == "normal" :
 			downSeconloop=1
 		elif  str(choice.mediatype) == "video" or str(choice.mediatype) == "audio"   :
@@ -196,7 +196,7 @@ if len(sys.argv)==1:
 	urwid.MainLoop(top, palette=[('reversed', 'standout', '')]).run()
 	####################exiting audioVideo loop############check if download was requested###########################
 	if downSeconloop==1:    ######
-	
+
 		regex = re.compile('[^a-zA-Z0-9.]')
 		filename = regex.sub('_', str(filename))
 		filename=filename.replace("__","_")
@@ -215,7 +215,7 @@ if len(sys.argv)==1:
 	###########starting 3rd loop ###########################333###############################
 	##########skipping 3rd iteratio if already downloaded##########
 	if downSeconloop != 1 :   ############## execute only if video from 2nd loop not selecetd ###### known after first loop 2nd loop is executed and user choses "only audio/video" option
-	
+
 		main1 = urwid.Padding(menuVAOnlyMenu(u'Available Formats {Only Video OR Only Audio}', avail_stream_VideoO,avail_stream_audioO), left=2, right=2)
 		top = urwid.Overlay(main1, urwid.SolidFill(u'\N{MEDIUM SHADE}'),align='center', width=('relative', 60),valign='middle', height=('relative', 90),min_width=20, min_height=9)
 		urwid.MainLoop(top, palette=[('reversed', 'standout', '')]).run()
@@ -227,12 +227,12 @@ if len(sys.argv)==1:
 		filename = regex.sub('_', str(filename))
 		filename=filename.replace("__","_")
 		filename=filename.replace("__","_")
-		print filename 
+		print filename
 		print "downloadinf to %s\n" %dwndir
 		a=os.system("aria2c --out "+str(filename)+" -j 10 -x 16 -m 0 -k 1M -s 25  " +"-d %s" %dwndir + "  \"%s\"  " %downurl)
-		if "webm"  in filename: 
+		if "webm"  in filename:
 			filename1=filename.replace("webm","mp3")
-		if "m4a" in filename:	
+		if "m4a" in filename:
 			filename1=filename.replace("m4a","mp3")
 		print ""
 		os.system("clear")
@@ -255,7 +255,7 @@ elif str(sys.argv[1])=="-a" :
 	#anime_name = "testanime.mp4"
 	def anime_menu(title, vid_url_res):	###menu displaying formats with both audio and video ######### 2nd loop
 		body = [urwid.Text(title), urwid.Divider()]
-			
+
 		for c in vid_url_res:
 			button = urwid.Button(str(c[1]) )
 			urwid.connect_signal(button, 'click', dwn_anime, c)
@@ -264,7 +264,7 @@ elif str(sys.argv[1])=="-a" :
 		button = urwid.Button("EXIT")
 		urwid.connect_signal(button, 'click', exit_program)
 		body.append(urwid.AttrMap(button, None, focus_map='reversed'))
-	
+
 		return urwid.ListBox(urwid.SimpleFocusListWalker(body))
 	def dwn_anime(button,vid_info):
 		global chosen_anime_url
@@ -285,13 +285,13 @@ elif str(sys.argv[1])=="-a" :
 		vid_url_res=[]
 		for o in option_list:
 			vid_url_res.append(( o["value"] , o.get_text()))
-		
+
 		main1 = urwid.Padding(anime_menu(u'Available Formats {normal:- contains both audio and video}', vid_url_res), left=2, right=2)
 		top = urwid.Overlay(main1, urwid.SolidFill(u'\N{MEDIUM SHADE}'),align='center', width=('relative', 60),valign='middle', height=('relative', 90),min_width=20, min_height=9)
 		urwid.MainLoop(top, palette=[('reversed', 'standout', '')]).run()
-		
+
 		###################download the shit####################
-		print ("downloadind to %s"%FIle_dir_global)
+		print ("downloadind to %s"%File_dir_global)
 		filename = str(((soup.find_all("meta",attrs={'name':'description'}))[0])["content"])
 		filename = filename + ".mp4"
 		dwndir=File_dir_global
@@ -300,7 +300,7 @@ elif str(sys.argv[1])=="-a" :
 		a=os.system("aria2c  --out " + str(filename) + "  -j 10 -x 16 -m 0 -k 1M -s 35 " + " -d  %s" %str(dwndir) +"   %s " %str(chosen_anime_url))
 		sys.exit()
 		#os.system("aria2c %s"%str(chosen_anime_url))
-	
+
 	elif kissan in URL_a:
 		driver = webdriver.PhantomJS(service_args=['--ssl-protocol=any'])
 		driver.maximize_window()
@@ -308,7 +308,7 @@ elif str(sys.argv[1])=="-a" :
 			driver.get(str(URL_a))
 			wait = WebDriverWait(driver, 30)
 			search = wait.until(EC.presence_of_element_located((By.ID, "selectQuality")))
-			
+
 		except:
 			print "connection timeout"
 			driver.quit()
@@ -319,11 +319,11 @@ elif str(sys.argv[1])=="-a" :
 		vid_url_res=[]
 		for k in x:
 			vid_url_res.append(( base64.b64decode(str(k.get_attribute("value"))), str(k.text)))
-		
+
 		main1 = urwid.Padding(anime_menu(u'Available Formats {normal:- contains both audio and video}', vid_url_res), left=2, right=2)
 		top = urwid.Overlay(main1, urwid.SolidFill(u'\N{MEDIUM SHADE}'),align='center', width=('relative', 60),valign='middle', height=('relative', 90),min_width=20, min_height=9)
-		urwid.MainLoop(top, palette=[('reversed', 'standout', '')]).run()	
-		
+		urwid.MainLoop(top, palette=[('reversed', 'standout', '')]).run()
+
 		###################download the shit####################
 		print ("downloadind to %s"%File_dir_global)
 		filename = str((driver.find_element_by_name("description")).get_attribute("content"))
@@ -342,8 +342,8 @@ elif str(sys.argv[1])=="-a" :
 		driver.quit()
 		sys.exit()
 		######################################################################
-			
-			
+
+
 	else :
 		print "Please check the URL\n"
 	sys.exit()

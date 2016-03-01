@@ -1,0 +1,11 @@
+setup.cfg
+setup.py
+YtbDwn/__init__.py
+YtbDwn/scrape.py
+YtbDwn/ytbdwn.py
+YtbDwn.egg-info/PKG-INFO
+YtbDwn.egg-info/SOURCES.txt
+YtbDwn.egg-info/dependency_links.txt
+YtbDwn.egg-info/entry_points.txt
+YtbDwn.egg-info/requires.txt
+YtbDwn.egg-info/top_level.txt
