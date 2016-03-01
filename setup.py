@@ -10,12 +10,12 @@ if os.environ.get('USER', '') == 'vagrant':
 setup(
   name = 'YtbDwn',
   packages = ['YtbDwn'], # this must be the same as the name above
-  version = '0.4',
+  version = '0.5',
   description = 'Youtube Downloader with TUI',
   author = 'Praneet Sherki',
   author_email = 'sherkipraneet@gmail.com',
   url = 'https://github.com/praneet95/YtbDwn', # use the URL to the github repo
-  download_url = 'https://github.com/praneet95/YtbDwn/tarball/0.4', # I'll explain this in a second
+  download_url = 'https://github.com/praneet95/YtbDwn/tarball/0.5', # I'll explain this in a second
   keywords = ['Youtube ', 'Downloader', 'TUI'], # arbitrary 
   install_requires=[
     'pafy == 0.4.3',
