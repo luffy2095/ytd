@@ -101,7 +101,7 @@ if len(sys.argv)==1:
 		urwid.connect_signal(done, 'click', Copy_exit,choice)
 		urwid.connect_signal(ext, 'click', exit_program)
 		urwid.connect_signal(down,'click',Down_aria,choice)
-	       	main1.original_widget = urwid.Filler(urwid.Pile([v_chosen,v_URL,urwid.AttrMap(done, None, focus_map='reversed'),urwid.AttrMap(down, None, focus_map='reversed'),urwid.AttrMap(ext, None, focus_map='reversed')]))
+	       	main1.original_widget = urwid.Filler(urwid.Pile([v_chosen,v_URL,urwid.AttrMap(down, None, focus_map='reversed'),urwid.AttrMap(done, None, focus_map='reversed'),urwid.AttrMap(ext, None, focus_map='reversed')]))
 
 	##############################Displaying Video formats definitions########################
 	def menuAV(title, avail_stream_both):	###menu displaying formats with both audio and video ######### 2nd loop
@@ -154,11 +154,16 @@ if len(sys.argv)==1:
 		global downSeconloop
 		global downThirdloop
 		global downurl
-		filename = title + "." + choice.extension
+		
 		comp_command = basecommand + "-o " + filename
 		if str(choice.mediatype) == "normal" :
 			downSeconloop=1
-		elif  str(choice.mediatype) == "video" or str(choice.mediatype) == "audio"   :
+			filename = title + choice.resolution+"." + choice.extension
+		elif  str(choice.mediatype) == "video"  :
+			filename = title + choice.resolution+"." + choice.extension
+			downThirdloop=1
+		elif str(choice.mediatype) == "audio"   :
+			filename = title + "." + choice.extension
 			downThirdloop=1
 		downurl = urllib.unquote(str(choice.url))
 		raise urwid.ExitMainLoop()
@@ -172,9 +177,9 @@ if len(sys.argv)==1:
 	p_title = urwid.Text(("Title :-  %s" %title))
 	p_author = urwid.Text(("Channel :-  %s" %author))
 	p_len = urwid.Text(("Length :-  "+"%d"%(vid_len/60) + ":" + "%d"%(vid_len%60)))
-	button_cont = urwid.Button(u'Press Enter to Continue') #continue button
+	button_cont = urwid.Button(u' Continue') #continue button
 	urwid.connect_signal(button_cont, 'click', on_clicked_cont)
-	button_exit= urwid.Button(u'Press Enter to Exit') #exit button
+	button_exit= urwid.Button(u'Exit') #exit button
 	urwid.connect_signal(button_exit, 'click', exit_program)
 	div = urwid.Divider(top=0)
 	pile = urwid.Pile([txt,p_title,p_author,p_len,div,urwid.AttrMap(button_cont, None , focus_map='reversed'),urwid.AttrMap(button_exit, None, focus_map='reversed')])
@@ -255,4 +260,4 @@ elif str(sys.argv[1])=="-d" :
 	dwndir = File_dir_global
 	print ("downloadind to %s"%dwndir)
 	os.system("aria2c --out "+str(d_filename)+" -j 10 -x 16 -m 0 -k 1M -s 25  " +"-d %s" %dwndir + "  \"%s\"  " %d_url)
-	#sys.exit()
+	sys.exit()
