@@ -22,3 +22,4 @@ Youtube Downloader based on Pafy and aria2. Allows downloading all available str
 
 (Enter URL when prompted)
 
+To change download directory change "File_dir_global" variable in ytbdwn.py
