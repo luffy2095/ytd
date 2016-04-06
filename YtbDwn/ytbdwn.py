@@ -154,7 +154,7 @@ if len(sys.argv)==1:
 		global downSeconloop
 		global downThirdloop
 		global downurl
-		
+
 		comp_command = basecommand + "-o " + filename
 		if str(choice.mediatype) == "normal" :
 			downSeconloop=1
@@ -209,7 +209,7 @@ if len(sys.argv)==1:
 		filename=filename.replace("__","_")
 		filename=filename.replace("__","_")
 		print filename
-		print "downloadinf to %s\n" %dwndir
+		print "downloading to %s\n" %dwndir
 		a=os.system("aria2c --out "+str(filename)+" -j 10 -x 16 -m 0 -k 1M -s 25  " +"-d %s" %dwndir + "  \"%s\"  " %downurl)
 		#print a
 	if downSeconloop==1:      ###if download was for a/v files ####exit as furher videos not needed
