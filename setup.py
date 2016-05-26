@@ -10,7 +10,7 @@ if os.environ.get('USER', '') == 'vagrant':
 setup(
   name = 'YtbDwn',
   packages = ['YtbDwn'], # this must be the same as the name above
-  version = '0.5',
+  version = '1.0',
   description = 'Youtube Downloader with TUI',
   author = 'Praneet Sherki',
   author_email = 'sherkipraneet@gmail.com',

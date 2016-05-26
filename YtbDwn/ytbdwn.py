@@ -14,6 +14,7 @@ import urllib2
 from bs4 import BeautifulSoup
 import base64
 import apt
+from os.path import expanduser
 cache = apt.Cache()
 if cache['aria2'].is_installed:
     print "Package installation check :- OK"
@@ -22,8 +23,16 @@ else:
     print "Please Install aria2 (sudo apt-get install aria2)"
     sys.exit(0)
 
-#######################################################
-File_dir_global="~/Desktop"
+######################Downloading to ~/youtubeDownloads#################################
+home=expanduser("~")
+home = home+"/youtubeDownloads"
+if not os.path.exists(home):
+	#print "here"
+	os.makedirs(home)
+	File_dir_global=home
+else:
+	File_dir_global=home
+
 #######################################################
 print ""
 def exit_program(button):  		####called when EXIT called
@@ -94,14 +103,14 @@ if len(sys.argv)==1:
 		raise urwid.ExitMainLoop()
 	def chosen_URL(button,choice):  #######show url of chosen format #####modify so that it calls axel to dowload the given url ############### called when a particular stream is selected
 		v_chosen = urwid.Text([u'Video Format :-  ', str(choice), u'\n'])
-		v_URL = urwid.Text([u'Downloadable URL :-  ', str(choice.url), u'\n'])
+		#v_URL = urwid.Text([u'Downloadable URL :-  ', str(choice.url), u'\n'])
 		done = urwid.Button(u'Copy URL to Clipboard')
 		down = urwid.Button(u'Download using aria')
 		ext = urwid.Button(u'Exit')
 		urwid.connect_signal(done, 'click', Copy_exit,choice)
 		urwid.connect_signal(ext, 'click', exit_program)
 		urwid.connect_signal(down,'click',Down_aria,choice)
-	       	main1.original_widget = urwid.Filler(urwid.Pile([v_chosen,v_URL,urwid.AttrMap(down, None, focus_map='reversed'),urwid.AttrMap(done, None, focus_map='reversed'),urwid.AttrMap(ext, None, focus_map='reversed')]))
+	       	main1.original_widget = urwid.Filler(urwid.Pile([v_chosen,urwid.AttrMap(down, None, focus_map='reversed'),urwid.AttrMap(done, None, focus_map='reversed'),urwid.AttrMap(ext, None, focus_map='reversed')]))
 
 	##############################Displaying Video formats definitions########################
 	def menuAV(title, avail_stream_both):	###menu displaying formats with both audio and video ######### 2nd loop
@@ -154,11 +163,11 @@ if len(sys.argv)==1:
 		global downSeconloop
 		global downThirdloop
 		global downurl
-
+		
 		comp_command = basecommand + "-o " + filename
 		if str(choice.mediatype) == "normal" :
 			downSeconloop=1
-			filename = title + choice.resolution+"." + choice.extension
+			filename = title + str(choice.resolution)+"." + str(choice.extension)
 		elif  str(choice.mediatype) == "video"  :
 			filename = title + choice.resolution+"." + choice.extension
 			downThirdloop=1
@@ -190,8 +199,8 @@ if len(sys.argv)==1:
 	loop.run()
 	####### First loop ending , Clear Screen for next screen
 
-	print "" #Dummy print for clear to work ?? find reason for this
-	subprocess.call("clear")
+	#print "" #Dummy print for clear to work ?? find reason for this
+	#subprocess.call("clear")
 	####################################################
 
 
@@ -208,6 +217,9 @@ if len(sys.argv)==1:
 		filename = regex.sub('_', str(filename))
 		filename=filename.replace("__","_")
 		filename=filename.replace("__","_")
+		#filename=filename.replace("_"," ")
+
+		filename.rstrip("_")
 		print filename
 		print "downloading to %s\n" %dwndir
 		a=os.system("aria2c --out "+str(filename)+" -j 10 -x 16 -m 0 -k 1M -s 25  " +"-d %s" %dwndir + "  \"%s\"  " %downurl)
@@ -235,17 +247,21 @@ if len(sys.argv)==1:
 		filename=filename.replace("__","_")
 		filename=filename.replace("__","_")
 		print filename
-		print "downloadinf to %s\n" %dwndir
+		print "downloading to %s\n" %dwndir
 		a=os.system("aria2c --out "+str(filename)+" -j 10 -x 16 -m 0 -k 1M -s 25  " +"-d %s" %dwndir + "  \"%s\"  " %downurl)
 		if "webm"  in filename:
 			filename1=filename.replace("webm","mp3")
 		if "m4a" in filename:
 			filename1=filename.replace("m4a","mp3")
+		if "mp4" in filename:
+			filename1=filename.replace("mp4","mp3")
+			
 		print ""
 		os.system("clear")
 		print "Converting to mp3"
 		print filename1
 		a=os.system("ffmpeg -i %s"%dwndir+"/"+"%s"%filename  + "  -ab 128k -ar 44100 %s"%dwndir+"/"+"%s"%filename1  )
+		os.remove(dwndir + "/" + filename)
 	sys.exit()
 
 	#####################################exit after all########################
@@ -258,6 +274,6 @@ elif str(sys.argv[1])=="-d" :
 	print "" #Dummy print for clear to work ?? find reason for this
 	subprocess.call("clear")
 	dwndir = File_dir_global
-	print ("downloadind to %s"%dwndir)
+	print ("downloading to %s"%dwndir)
 	os.system("aria2c --out "+str(d_filename)+" -j 10 -x 16 -m 0 -k 1M -s 25  " +"-d %s" %dwndir + "  \"%s\"  " %d_url)
 	sys.exit()
