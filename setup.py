@@ -10,7 +10,7 @@ if os.environ.get('USER', '') == 'vagrant':
 setup(
   name = 'YtbDwn',
   packages = ['YtbDwn'], # this must be the same as the name above
-  version = '1.0',
+  version = '1.1',
   description = 'Youtube Downloader with TUI',
   author = 'Praneet Sherki',
   author_email = 'sherkipraneet@gmail.com',
@@ -18,10 +18,10 @@ setup(
   download_url = 'https://github.com/praneet95/YtbDwn/tarball/0.5', # I'll explain this in a second
   keywords = ['Youtube ', 'Downloader', 'TUI'], # arbitrary 
   install_requires=[
-    'pafy == 0.4.3',
-    'pyperclip == 1.5.26',
-    'urwid == 1.3.1',
-    'beautifulsoup4 == 4.4.1'
+    'pafy >= 0.4.3',
+    'pyperclip >= 1.5.26',
+    'urwid >= 1.3.1',
+    'beautifulsoup4 >= 4.4.1'
   	],
   entry_points={
     'console_scripts': [
